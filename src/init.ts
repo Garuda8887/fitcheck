@@ -86,3 +86,11 @@ export function writeCtxignore(root: string, patterns: string[]): void {
   ].join('\n');
   fs.writeFileSync(path.join(root, '.ctxignore'), content, 'utf8');
 }
+
+export function syncIgnoreFiles(root: string): void {
+  const ctxPath = path.join(root, '.ctxignore');
+  if (!fs.existsSync(ctxPath)) return;
+  const content = fs.readFileSync(ctxPath, 'utf8');
+  fs.writeFileSync(path.join(root, '.cursorignore'), content, 'utf8');
+  fs.writeFileSync(path.join(root, '.aiderignore'), content, 'utf8');
+}

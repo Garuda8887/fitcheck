@@ -124,9 +124,10 @@ program
 program
   .command('init')
   .description('Generate a .ctxignore with smart defaults for this project')
-  .action(() => {
+  .option('--sync', 'Also generate .cursorignore and .aiderignore files')
+  .action((options: { sync?: boolean }) => {
     const root = process.cwd();
-    const { generateCtxignore, writeCtxignore } = require('./init') as typeof import('./init');
+    const { generateCtxignore, writeCtxignore, syncIgnoreFiles } = require('./init') as typeof import('./init');
     const ctxignorePath = path.join(root, '.ctxignore');
 
     const patterns = generateCtxignore(root);
@@ -143,6 +144,9 @@ program
 
     try {
       writeCtxignore(root, patterns);
+      if (options.sync) {
+        syncIgnoreFiles(root);
+      }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
       console.error(chalk.red(`✗ Could not write .ctxignore: ${msg}`));
@@ -150,6 +154,9 @@ program
     }
     console.log(chalk.green(`✓ Written .ctxignore with ${patterns.length} exclusion patterns:`));
     for (const p of patterns) console.log(chalk.gray(`  ${p}`));
+    if (options.sync) {
+      console.log(chalk.green(`✓ Synced rules to .cursorignore and .aiderignore`));
+    }
     console.log();
     console.log(chalk.gray('Run `fitcheck .` to see your new token count.'));
   });
