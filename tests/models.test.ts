@@ -28,4 +28,23 @@ describe('checkFit', () => {
     expect(fits[0].fits).toBe(false);
     expect(fits[0].ratio).toBeCloseTo(1.5);
   });
+
+  it('handles zero tokens (empty project) — fits all models', () => {
+    const fits = checkFit(0, [{ id: 'x', label: 'X', tokens: 200000 }]);
+    expect(fits[0].fits).toBe(true);
+    expect(fits[0].percentage).toBe(0);
+  });
+
+  it('marks model as fitting at exact limit', () => {
+    const fits = checkFit(200000, [{ id: 'x', label: 'X', tokens: 200000 }]);
+    expect(fits[0].fits).toBe(true);
+  });
+
+  it('returns empty array for empty models list', () => {
+    expect(checkFit(100000, [])).toEqual([]);
+  });
+
+  it('throws for negative totalTokens', () => {
+    expect(() => checkFit(-1, [{ id: 'x', label: 'X', tokens: 200000 }])).toThrow();
+  });
 });
