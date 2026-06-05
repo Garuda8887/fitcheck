@@ -1,4 +1,4 @@
-name: 'fitcheck'
+name: 'fitcheck-action'
 description: 'Token budgets for AI-native developers. Analyze your PR token cost.'
 branding:
   icon: 'cpu'
