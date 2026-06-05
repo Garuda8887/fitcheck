@@ -108,4 +108,31 @@ program
     console.log();
   });
 
+program
+  .command('init')
+  .description('Generate a .ctxignore with smart defaults for this project')
+  .action(() => {
+    const root = process.cwd();
+    const { generateCtxignore, writeCtxignore } = require('./init') as typeof import('./init');
+    const ctxignorePath = path.join(root, '.ctxignore');
+
+    const patterns = generateCtxignore(root);
+
+    if (patterns.length === 0) {
+      console.log(chalk.green('✓ No bloat detected — project looks clean.'));
+      return;
+    }
+
+    if (fs.existsSync(ctxignorePath)) {
+      console.log(chalk.yellow('⚠ .ctxignore already exists. Delete it first to regenerate.'));
+      return;
+    }
+
+    writeCtxignore(root, patterns);
+    console.log(chalk.green(`✓ Written .ctxignore with ${patterns.length} exclusion patterns:`));
+    for (const p of patterns) console.log(chalk.gray(`  ${p}`));
+    console.log();
+    console.log(chalk.gray('Run `fitcheck .` to see your new token count.'));
+  });
+
 program.parse();
