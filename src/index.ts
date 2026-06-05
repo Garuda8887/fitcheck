@@ -128,7 +128,13 @@ program
       return;
     }
 
-    writeCtxignore(root, patterns);
+    try {
+      writeCtxignore(root, patterns);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.error(chalk.red(`✗ Could not write .ctxignore: ${msg}`));
+      process.exit(1);
+    }
     console.log(chalk.green(`✓ Written .ctxignore with ${patterns.length} exclusion patterns:`));
     for (const p of patterns) console.log(chalk.gray(`  ${p}`));
     console.log();
