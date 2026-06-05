@@ -31,10 +31,11 @@ export function parseDiff(diffText: string, counter: (text: string) => number): 
   };
 }
 
-export function getDiffTokens(cwd: string): DiffResult {
+export function getDiffTokens(cwd: string, baseSha?: string): DiffResult {
   let diffText = '';
   try {
-    diffText = execSync('git diff HEAD', { cwd, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 });
+    const cmd = baseSha ? `git diff ${baseSha}` : 'git diff HEAD';
+    diffText = execSync(cmd, { cwd, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 });
   } catch (err: unknown) {
     const e = err as NodeJS.ErrnoException;
     if (e.code === 'ENOENT') throw new Error('git not found in PATH.');

@@ -1,0 +1,17 @@
+name: 'fitcheck'
+description: 'Token budgets for AI-native developers. Analyze your PR token cost.'
+branding:
+  icon: 'cpu'
+  color: 'green'
+inputs:
+  github-token:
+    description: 'GitHub token for posting comments'
+    required: true
+    default: ${{ github.token }}
+  max-tokens:
+    description: 'Warn if net tokens added exceeds this limit'
+    required: false
+    default: '10000'
+runs:
+  using: 'node20'
+  main: 'dist/action/index.js'

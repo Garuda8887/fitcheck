@@ -65,6 +65,33 @@ coverage/
 
 `fitcheck` natively respects both `.gitignore` and `.ctxignore` when scanning your project.
 
+By default, `fitcheck` looks for `.ctxignore` and `.gitignore`. If it finds a `.ctxignore`, it merges the rules to ensure maximum bloat reduction.
+
+## 🤖 GitHub Action (CI/CD)
+
+Want to stop context bloat before it merges? You can use `fitcheck` directly in your GitHub Actions pipeline to automatically analyze Pull Requests. If a PR adds an excessive amount of tokens, `fitcheck` will drop a warning comment so your team can prune their code.
+
+Create a file at `.github/workflows/fitcheck.yml`:
+
+```yaml
+name: Fitcheck PR Review
+on: [pull_request]
+
+jobs:
+  analyze-bloat:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Required for diffing against the base branch
+          
+      - name: Run Fitcheck
+        uses: Garuda8887/fitcheck@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          max-tokens: 10000 # Customize the warning threshold
+```
+
 > **💡 IDE Integration:** 
 > - **Cursor & Aider:** Run `fitcheck init --sync` to automatically copy these rules into `.cursorignore` and `.aiderignore`.
 > - **Claude Code:** Anthropic's CLI relies entirely on `.gitignore`. Run `fitcheck init --claudesync` to automatically append these rules to your `.gitignore` file.
