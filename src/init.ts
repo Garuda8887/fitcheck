@@ -9,7 +9,7 @@ interface InitRule {
 
 const INIT_RULES: InitRule[] = [
   { ctxignoreLine: 'node_modules/', match: (r) => r.startsWith('node_modules/') || r.includes('/node_modules/') },
-  { ctxignoreLine: '*.lock',        match: (r) => /\.lock$/.test(r) || r === 'package-lock.json' || r === 'pnpm-lock.yaml' },
+  { ctxignoreLine: '*.lock',        match: (r) => /\.lock$/.test(r) || r === 'package-lock.json' || r === 'pnpm-lock.yaml' || r === 'yarn.lock' || r === 'Cargo.lock' || r === 'poetry.lock' },
   { ctxignoreLine: 'dist/',         match: (r) => r.startsWith('dist/') },
   { ctxignoreLine: 'build/',        match: (r) => r.startsWith('build/') },
   { ctxignoreLine: 'out/',          match: (r) => r.startsWith('out/') },

@@ -12,6 +12,7 @@
     "test:watch": "jest --watch",
     "prepublishOnly": "npm run build && npm test"
   },
+  "engines": { "node": ">=16" },
   "keywords": ["llm", "tokens", "context", "ai", "cli", "fitcheck", "tiktoken"],
   "license": "MIT",
   "dependencies": {

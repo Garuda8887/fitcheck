@@ -53,8 +53,17 @@ program
     }
 
     const analysis = analyze(files, tokenCounts);
-    const models = loadModels();
-    const fits = checkFit(analysis.totalTokens, models);
+    const allModels = loadModels();
+    const targetModels = options.target
+      ? allModels.filter((m) => m.id === options.target)
+      : allModels;
+
+    if (options.target && targetModels.length === 0) {
+      console.error(chalk.red(`Unknown model: "${options.target}". Run without --target to see all models.`));
+      process.exit(1);
+    }
+
+    const fits = checkFit(analysis.totalTokens, targetModels);
     const advice = detectBloat(files, tokenCounts, analysis.totalTokens);
 
     if (options.json) {

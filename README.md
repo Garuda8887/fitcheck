@@ -51,7 +51,7 @@ npm install -g fitcheck
 | `fitcheck .` | Analyze current directory |
 | `fitcheck ./src` | Analyze a subfolder |
 | `fitcheck . --target claude-sonnet-4` | Focus trim advice on one model |
-| `fitcheck --diff` | Token cost of current git changes |
+| `fitcheck diff` | Token cost of current git changes |
 | `fitcheck init` | Generate `.ctxignore` with smart defaults |
 | `fitcheck . --json` | Machine-readable output |
 
