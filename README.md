@@ -55,6 +55,10 @@ All major LLM context windows are checked automatically. The model list lives in
 
 **Currently tracked:** Claude Opus/Sonnet/Haiku, GPT-4o, GPT-4o mini, Gemini 1.5 Pro, Gemini 2.0 Flash, DeepSeek V3, Llama 3.1 70B.
 
+## Contributing
+
+We love open source contributions! Whether it's fixing a bug, suggesting a feature, or simply adding a new model to our `models.json` file. Please read our [Contributing Guide](CONTRIBUTING.md) to get started.
+
 ## License
 
 MIT
