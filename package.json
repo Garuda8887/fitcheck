@@ -2,9 +2,15 @@
   "name": "fitcheck",
   "version": "1.0.0",
   "description": "Know before you prompt. Token budgets for AI-native developers.",
-  "bin": { "fitcheck": "./dist/index.js" },
+  "bin": {
+    "fitcheck": "./dist/index.js"
+  },
   "main": "./dist/index.js",
-  "files": ["dist", "models.json", "README.md"],
+  "files": [
+    "dist",
+    "models.json",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsx src/index.ts",
@@ -12,8 +18,23 @@
     "test:watch": "jest --watch",
     "prepublishOnly": "npm run build && npm test"
   },
-  "engines": { "node": ">=16" },
-  "keywords": ["llm", "ai", "cli", "tokens", "token-counter", "context-window", "tiktoken", "claude", "gpt", "developer-tools", "productivity", "fitcheck"],
+  "engines": {
+    "node": ">=16"
+  },
+  "keywords": [
+    "llm",
+    "ai",
+    "cli",
+    "tokens",
+    "token-counter",
+    "context-window",
+    "tiktoken",
+    "claude",
+    "gpt",
+    "developer-tools",
+    "productivity",
+    "fitcheck"
+  ],
   "license": "MIT",
   "dependencies": {
     "chalk": "^4.1.2",
@@ -26,7 +47,6 @@
     "@types/node": "^20.0.0",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.0",
-    "tsx": "^4.15.0",
-    "typescript": "^5.4.0"
+    "tsx": "^4.15.0"
   }
 }

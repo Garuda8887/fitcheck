@@ -168,4 +168,45 @@ program
     console.log(chalk.gray('Run `fitcheck .` to see your new token count.'));
   });
 
+program
+  .command('pack')
+  .description('Skeletonize the codebase into a single heavily-optimized Markdown file')
+  .action(() => {
+    const root = process.cwd();
+    const { scanDirectory } = require('./scanner') as typeof import('./scanner');
+    const { packCodebase } = require('./packer') as typeof import('./packer');
+    const { countFileTokens } = require('./tokenizer') as typeof import('./tokenizer');
+
+    console.log(chalk.gray('Scanning directory...'));
+    const files = scanDirectory(root);
+    const codeFiles = files.filter(f => /\.(js|ts|jsx|tsx)$/i.test(f.relativePath));
+    
+    if (codeFiles.length === 0) {
+      console.error(chalk.yellow('No JS/TS files found to pack.'));
+      process.exit(0);
+    }
+
+    let originalTokens = 0;
+    for (const f of codeFiles) {
+      try {
+        originalTokens += countFileTokens(fs.readFileSync(f.absolutePath, 'utf8'));
+      } catch {}
+    }
+
+    console.log(chalk.gray(`Skeletonizing ${codeFiles.length} files...`));
+    const output = packCodebase(files);
+    const packedTokens = countFileTokens(output);
+    const outPath = path.join(root, '.fitcheck-skeleton.md');
+    
+    fs.writeFileSync(outPath, output, 'utf8');
+    
+    console.log(chalk.green(`✓ Successfully packed architecture into ${chalk.bold('.fitcheck-skeleton.md')}`));
+    console.log();
+    const saved = originalTokens - packedTokens;
+    const percent = Math.round((saved / originalTokens) * 100) || 0;
+    console.log(chalk.blue(`Original Code:`).padEnd(25) + chalk.bold(originalTokens.toLocaleString()) + ' tokens');
+    console.log(chalk.green(`Skeletonized:`).padEnd(25) + chalk.bold(packedTokens.toLocaleString()) + ' tokens');
+    console.log(chalk.magenta(`Savings:`).padEnd(25) + `${saved.toLocaleString()} tokens (${percent}% reduction)`);
+  });
+
 program.parse();

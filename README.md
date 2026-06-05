@@ -30,6 +30,7 @@ npm install -g fitcheck
 | `fitcheck ./src` | Analyze a specific subfolder |
 | `fitcheck . --target claude-sonnet-4` | Focus trim advice on one specific model |
 | `fitcheck diff` | Show the token cost of your current uncommitted git changes |
+| `fitcheck pack` | **[NEW]** Skeletonize your entire architecture into a single `.fitcheck-skeleton.md` file |
 | `fitcheck init` | Generate `.ctxignore` with smart bloat-detection defaults |
 | `fitcheck init --sync` | Generate and automatically sync to `.cursorignore` and `.aiderignore` |
 | `fitcheck init --claudesync` | Append `.ctxignore` rules directly to `.gitignore` (for Claude Code) |

@@ -15,6 +15,7 @@ const INIT_RULES: InitRule[] = [
   { ctxignoreLine: 'Cargo.lock',        match: (r) => r === 'Cargo.lock' },
   { ctxignoreLine: 'poetry.lock',       match: (r) => r === 'poetry.lock' },
   { ctxignoreLine: '*.lock',            match: (r) => /\.lock$/.test(r) && r !== 'yarn.lock' && r !== 'Cargo.lock' && r !== 'poetry.lock' },
+  { ctxignoreLine: '.fitcheck-skeleton.md', match: (r) => r === '.fitcheck-skeleton.md' },
   { ctxignoreLine: 'dist/',         match: (r) => r.startsWith('dist/') },
   { ctxignoreLine: 'build/',        match: (r) => r.startsWith('build/') },
   { ctxignoreLine: 'out/',          match: (r) => r.startsWith('out/') },
