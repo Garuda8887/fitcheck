@@ -42,7 +42,13 @@ Running `fitcheck pack` parses the AST of your entire TypeScript/JavaScript code
 
 ![fitcheck pack 88% reduction](./pack.png)
 
-Drag the generated `.fitcheck-skeleton.md` file into ChatGPT or Claude to give them full architectural context of your project for pennies!
+### The Proof
+
+What happens when you drop an 88% reduced skeleton file into ChatGPT? **It perfectly understands your entire architecture.**
+
+![fitcheck skeleton in action](./demo.gif)
+
+By giving LLMs the `.fitcheck-skeleton.md` file, you provide them with the ultimate architectural context of your project for pennies on the dollar—freeing up their context window for *actual reasoning* rather than parsing thousands of lines of useless function logic.
 
 ## The `.ctxignore` Standard
 
