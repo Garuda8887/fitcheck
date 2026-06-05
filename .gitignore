@@ -8,3 +8,7 @@ Thumbs.db
 .env.*
 .superpowers/
 .claude/
+docs/superpowers/
+fixtures/
+tests/
+demo.tape

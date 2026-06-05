@@ -13,7 +13,7 @@
     "prepublishOnly": "npm run build && npm test"
   },
   "engines": { "node": ">=16" },
-  "keywords": ["llm", "tokens", "context", "ai", "cli", "fitcheck", "tiktoken"],
+  "keywords": ["llm", "ai", "cli", "tokens", "token-counter", "context-window", "tiktoken", "claude", "gpt", "developer-tools", "productivity", "fitcheck"],
   "license": "MIT",
   "dependencies": {
     "chalk": "^4.1.2",
