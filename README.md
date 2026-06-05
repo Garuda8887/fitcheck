@@ -42,13 +42,13 @@ Running `fitcheck pack` parses the AST of your entire TypeScript/JavaScript code
 
 ![fitcheck pack 88% reduction](./pack.png)
 
-### The Proof
+### See it in Action
 
-What happens when you drop an 88% reduced skeleton file into ChatGPT? **It perfectly understands your entire architecture.**
+Stripping function bodies saves massive amounts of tokens without losing structural context. As shown below, an LLM can still accurately infer your database schemas, API routes, and overall architecture just from the skeleton file.
 
 ![fitcheck skeleton in action](./demo.gif)
 
-By giving LLMs the `.fitcheck-skeleton.md` file, you provide them with the ultimate architectural context of your project for pennies on the dollar—freeing up their context window for *actual reasoning* rather than parsing thousands of lines of useless function logic.
+Feed `.fitcheck-skeleton.md` to your AI to preserve your context window limits, reduce API costs, and give the model a clean, structural overview of your project.
 
 ## The `.ctxignore` Standard
 
