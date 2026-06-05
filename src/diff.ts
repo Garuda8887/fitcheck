@@ -34,11 +34,11 @@ export function parseDiff(diffText: string, counter: (text: string) => number): 
 export function getDiffTokens(cwd: string): DiffResult {
   let diffText = '';
   try {
-    const unstaged = execSync('git diff', { cwd, encoding: 'utf8' });
-    const staged = execSync('git diff --cached', { cwd, encoding: 'utf8' });
-    diffText = unstaged + staged;
-  } catch {
-    throw new Error('Not a git repository. --diff requires git.');
+    diffText = execSync('git diff HEAD', { cwd, encoding: 'utf8' });
+  } catch (err: unknown) {
+    const e = err as NodeJS.ErrnoException;
+    if (e.code === 'ENOENT') throw new Error('git not found in PATH.');
+    throw new Error('Not a git repository or git command failed.');
   }
   return parseDiff(diffText, countTokens);
 }

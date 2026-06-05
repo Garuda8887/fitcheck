@@ -24,7 +24,6 @@ program
   .argument('[path]', 'directory to analyze', '.')
   .option('--target <model>', 'focus trim advice on a specific model ID')
   .option('--json', 'output results as JSON')
-  .option('--no-chart', 'suppress bar charts')
   .action((targetPath: string, options: { target?: string; json?: boolean }) => {
     const root = path.resolve(targetPath);
 
@@ -59,7 +58,7 @@ program
     const advice = detectBloat(files, tokenCounts, analysis.totalTokens);
 
     if (options.json) {
-      console.log(JSON.stringify({ totalTokens: analysis.totalTokens, fileCount: analysis.fileCount, byDirectory: analysis.byDirectory, topFiles: analysis.topFiles, modelFits: fits, bloat: advice.bloat }, null, 2));
+      console.log(JSON.stringify({ totalTokens: analysis.totalTokens, fileCount: analysis.fileCount, skipped, byDirectory: analysis.byDirectory, topFiles: analysis.topFiles, modelFits: fits, bloat: advice.bloat }, null, 2));
       return;
     }
 
@@ -75,7 +74,7 @@ program
   .description('Show token cost of current git changes')
   .action(() => {
     const root = process.cwd();
-    let diffResult;
+    let diffResult: ReturnType<typeof getDiffTokens>;
     try {
       diffResult = getDiffTokens(root);
     } catch (err: unknown) {
