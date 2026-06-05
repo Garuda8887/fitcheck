@@ -66,4 +66,19 @@ describe('scanDirectory', () => {
     expect(names).not.toContain('big.ts');
     fs.rmSync(dir, { recursive: true });
   });
+
+  it('excludes entire directory when gitignore pattern has trailing slash', () => {
+    const dir = makeTmp({
+      '.gitignore': 'dist/\n',
+      'dist/bundle.js': 'built code',
+      'dist/index.js': 'built code',
+      'src/main.ts': 'source',
+    });
+    const files = scanDirectory(dir);
+    const names = files.map((f) => f.relativePath);
+    expect(names).not.toContain('dist/bundle.js');
+    expect(names).not.toContain('dist/index.js');
+    expect(names).toContain('src/main.ts');
+    fs.rmSync(dir, { recursive: true });
+  });
 });

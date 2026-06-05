@@ -40,7 +40,8 @@ function walk(dir: string, root: string, ig: ReturnType<typeof ignore>): Scanned
     const absolutePath = path.join(dir, entry.name);
     const relativePath = path.relative(root, absolutePath).split(path.sep).join('/');
 
-    if (ig.ignores(relativePath)) continue;
+    const checkPath = entry.isDirectory() ? relativePath + '/' : relativePath;
+    if (ig.ignores(checkPath)) continue;
 
     if (entry.isDirectory()) {
       results.push(...walk(absolutePath, root, ig));
