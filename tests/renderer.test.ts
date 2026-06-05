@@ -1,4 +1,4 @@
-import { bar, formatTokens, renderHeader, renderModelFits, renderBreakdown, renderBloat } from '../src/renderer';
+import { bar, formatTokens, renderHeader, renderModelFits, renderBreakdown, renderBloat, renderMain } from '../src/renderer';
 import type { ModelFit } from '../src/models';
 import type { Analysis } from '../src/analyzer';
 import type { Advice } from '../src/advisor';
@@ -91,5 +91,25 @@ describe('renderBloat', () => {
     const out = renderBloat(advice, 10000);
     expect(out).toContain('dist/');
     expect(out).toContain('1.0k');
+  });
+});
+
+describe('renderMain', () => {
+  it('calls console.log with expected output', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation();
+    const analysis: Analysis = { totalTokens: 10, byDirectory: [], topFiles: [], fileCount: 1 };
+    const advice: Advice = { bloat: [{ pattern: 'dist/', tokens: 5, percentage: 50 }], totalSavings: 5, tokensAfterFix: 5 };
+    renderMain('1.0', analysis, [], advice);
+    expect(spy).toHaveBeenCalled();
+    spy.mockRestore();
+  });
+
+  it('renders without bloat correctly', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation();
+    const analysis: Analysis = { totalTokens: 10, byDirectory: [], topFiles: [], fileCount: 1 };
+    const advice: Advice = { bloat: [], totalSavings: 0, tokensAfterFix: 10 };
+    renderMain('1.0', analysis, [], advice);
+    expect(spy).toHaveBeenCalled();
+    spy.mockRestore();
   });
 });

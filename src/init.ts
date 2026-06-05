@@ -9,12 +9,19 @@ interface InitRule {
 
 const INIT_RULES: InitRule[] = [
   { ctxignoreLine: 'node_modules/', match: (r) => r.startsWith('node_modules/') || r.includes('/node_modules/') },
-  { ctxignoreLine: '*.lock',        match: (r) => /\.lock$/.test(r) || r === 'package-lock.json' || r === 'pnpm-lock.yaml' || r === 'yarn.lock' || r === 'Cargo.lock' || r === 'poetry.lock' },
+  { ctxignoreLine: 'package-lock.json', match: (r) => r === 'package-lock.json' },
+  { ctxignoreLine: 'pnpm-lock.yaml',    match: (r) => r === 'pnpm-lock.yaml' },
+  { ctxignoreLine: 'yarn.lock',         match: (r) => r === 'yarn.lock' },
+  { ctxignoreLine: 'Cargo.lock',        match: (r) => r === 'Cargo.lock' },
+  { ctxignoreLine: 'poetry.lock',       match: (r) => r === 'poetry.lock' },
+  { ctxignoreLine: '*.lock',            match: (r) => /\.lock$/.test(r) && r !== 'yarn.lock' && r !== 'Cargo.lock' && r !== 'poetry.lock' },
   { ctxignoreLine: 'dist/',         match: (r) => r.startsWith('dist/') },
   { ctxignoreLine: 'build/',        match: (r) => r.startsWith('build/') },
   { ctxignoreLine: 'out/',          match: (r) => r.startsWith('out/') },
   { ctxignoreLine: '.next/',        match: (r) => r.startsWith('.next/') },
   { ctxignoreLine: '.nuxt/',        match: (r) => r.startsWith('.nuxt/') },
+  { ctxignoreLine: '.svelte-kit/',  match: (r) => r.startsWith('.svelte-kit/') },
+  { ctxignoreLine: '.astro/',       match: (r) => r.startsWith('.astro/') },
   { ctxignoreLine: '__pycache__/',  match: (r) => r.includes('__pycache__/') },
   { ctxignoreLine: '*.pyc',         match: (r) => r.endsWith('.pyc') },
   { ctxignoreLine: '*.min.js',      match: (r) => r.endsWith('.min.js') },
@@ -46,14 +53,16 @@ export function generateCtxignore(root: string): string[] {
       if (rel.startsWith('.git/') || rel === '.git') continue;
 
       const testRel = entry.isDirectory() ? rel + '/' : rel;
+      let isBloat = false;
       for (const rule of INIT_RULES) {
         if (rule.match(testRel) || rule.match(rel)) {
           detected.add(rule.ctxignoreLine);
+          isBloat = true;
           break;
         }
       }
 
-      if (entry.isDirectory()) {
+      if (entry.isDirectory() && !isBloat) {
         walk(abs);
       }
     }

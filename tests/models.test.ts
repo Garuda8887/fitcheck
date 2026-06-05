@@ -48,3 +48,21 @@ describe('checkFit', () => {
     expect(() => checkFit(-1, [{ id: 'x', label: 'X', tokens: 200000 }])).toThrow();
   });
 });
+
+describe('loadModels error handling', () => {
+  beforeEach(() => {
+    jest.resetModules();
+  });
+
+  it('throws if models.json is not an array', () => {
+    jest.mock('../models.json', () => ({ hello: 'world' }), { virtual: true });
+    const { loadModels } = require('../src/models');
+    expect(() => loadModels()).toThrow('models.json must be an array');
+  });
+
+  it('throws if a model entry is invalid', () => {
+    jest.mock('../models.json', () => ([{ id: 123 }]), { virtual: true });
+    const { loadModels } = require('../src/models');
+    expect(() => loadModels()).toThrow('Invalid model entry');
+  });
+});

@@ -1,4 +1,7 @@
-import { countTokens, countFileTokens } from '../src/tokenizer';
+import { countTokens, countFileTokens, isBinaryFile } from '../src/tokenizer';
+import fs from 'fs';
+import os from 'os';
+import path from 'path';
 
 describe('countTokens', () => {
   it('counts tokens in a simple string', () => {
@@ -19,12 +22,29 @@ describe('countTokens', () => {
 });
 
 describe('countFileTokens', () => {
-  it('returns null for binary content (null byte)', () => {
-    const binary = 'text\x00binary';
-    expect(countFileTokens(binary)).toBeNull();
-  });
-
   it('returns token count for text content', () => {
     expect(countFileTokens('hello world')).toBe(2);
+  });
+});
+
+describe('isBinaryFile', () => {
+  it('returns true for binary file', () => {
+    const tmpFile = path.join(os.tmpdir(), 'test_binary.bin');
+    fs.writeFileSync(tmpFile, Buffer.from([0x00, 0x01, 0x02]));
+    expect(isBinaryFile(tmpFile)).toBe(true);
+    fs.unlinkSync(tmpFile);
+  });
+
+  it('returns false for text file', () => {
+    const tmpFile = path.join(os.tmpdir(), 'test_text.txt');
+    fs.writeFileSync(tmpFile, 'hello world', 'utf8');
+    expect(isBinaryFile(tmpFile)).toBe(false);
+    fs.unlinkSync(tmpFile);
+  });
+
+  it('returns false if file open throws', () => {
+    jest.spyOn(fs, 'openSync').mockImplementationOnce(() => { throw new Error('EACCES'); });
+    expect(isBinaryFile('some-fake-path')).toBe(false);
+    jest.restoreAllMocks();
   });
 });

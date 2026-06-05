@@ -81,4 +81,20 @@ describe('scanDirectory', () => {
     expect(names).toContain('src/main.ts');
     fs.rmSync(dir, { recursive: true });
   });
+
+  it('returns empty array if readdirSync throws', () => {
+    jest.spyOn(fs, 'readdirSync').mockImplementationOnce(() => { throw new Error('EACCES'); });
+    const files = scanDirectory('some-fake-dir');
+    expect(files).toEqual([]);
+    jest.restoreAllMocks();
+  });
+
+  it('skips file if statSync throws', () => {
+    const dir = makeTmp({ 'bad.ts': 'x' });
+    jest.spyOn(fs, 'statSync').mockImplementationOnce(() => { throw new Error('ENOENT'); });
+    const files = scanDirectory(dir);
+    expect(files).toEqual([]);
+    jest.restoreAllMocks();
+    fs.rmSync(dir, { recursive: true });
+  });
 });

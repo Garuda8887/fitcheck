@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { loadModels, checkFit } from './models';
 import { scanDirectory } from './scanner';
-import { countFileTokens } from './tokenizer';
+import { countFileTokens, isBinaryFile } from './tokenizer';
 import { analyze } from './analyzer';
 import { detectBloat } from './advisor';
 import { renderMain, renderModelFits } from './renderer';
@@ -43,9 +43,12 @@ program
 
     for (const file of files) {
       try {
+        if (isBinaryFile(file.absolutePath)) {
+          skipped++;
+          continue;
+        }
         const content = fs.readFileSync(file.absolutePath, 'utf8');
         const count = countFileTokens(content);
-        if (count === null) { skipped++; continue; }
         tokenCounts.set(file.relativePath, count);
       } catch {
         skipped++;
@@ -95,9 +98,10 @@ program
     const tokenCounts = new Map<string, number>();
     for (const file of files) {
       try {
+        if (isBinaryFile(file.absolutePath)) continue;
         const content = fs.readFileSync(file.absolutePath, 'utf8');
         const count = countFileTokens(content);
-        if (count !== null) tokenCounts.set(file.relativePath, count);
+        tokenCounts.set(file.relativePath, count);
       } catch { /* skip */ }
     }
 

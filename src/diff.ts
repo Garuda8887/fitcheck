@@ -34,7 +34,7 @@ export function parseDiff(diffText: string, counter: (text: string) => number): 
 export function getDiffTokens(cwd: string): DiffResult {
   let diffText = '';
   try {
-    diffText = execSync('git diff HEAD', { cwd, encoding: 'utf8' });
+    diffText = execSync('git diff HEAD', { cwd, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 });
   } catch (err: unknown) {
     const e = err as NodeJS.ErrnoException;
     if (e.code === 'ENOENT') throw new Error('git not found in PATH.');

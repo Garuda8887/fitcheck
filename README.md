@@ -12,27 +12,7 @@ npx fitcheck .
 
 ## What it does
 
-```
-fitcheck v1.0.0 · 2,847 files · cl100k tokenizer
-
-412.8k tokens
-
-✗ Claude Sonnet    200k  ████████████░░░░  2.1× over
-✗ GPT-4o           128k  ████████████░░░░  3.2× over
-✓ Gemini 1.5 Pro    1M   ██░░░░░░░░░░░░░░  41% used
-
-breakdown
-src/          ██████████████░░   310k  75%
-docs/         ████░░░░░░░░░░░░    62k  15%
-tests/        ██░░░░░░░░░░░░░░    28k   7%
-
-⚠ bloat detected
-dist/               62k  →  -15%
-*.lock files        28k  →  -7%
-────────────────────────────────────────────
-fix all → 226k tokens  (save 22%)
-run `fitcheck init` to generate .ctxignore
-```
+![fitcheck terminal output](./test.png)
 
 ## Install
 
@@ -62,7 +42,8 @@ Like `.gitignore` but for AI context windows. Run `fitcheck init` to generate on
 ```
 # .ctxignore
 dist/
-*.lock
+package-lock.json
+yarn.lock
 coverage/
 *.min.js
 ```
