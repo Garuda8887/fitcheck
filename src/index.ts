@@ -125,9 +125,10 @@ program
   .command('init')
   .description('Generate a .ctxignore with smart defaults for this project')
   .option('--sync', 'Also generate .cursorignore and .aiderignore files')
-  .action((options: { sync?: boolean }) => {
+  .option('--claudesync', 'Append rules to .gitignore for Claude Code compatibility')
+  .action((options: { sync?: boolean, claudesync?: boolean }) => {
     const root = process.cwd();
-    const { generateCtxignore, writeCtxignore, syncIgnoreFiles } = require('./init') as typeof import('./init');
+    const { generateCtxignore, writeCtxignore, syncIgnoreFiles, claudeSyncIgnoreFiles } = require('./init') as typeof import('./init');
     const ctxignorePath = path.join(root, '.ctxignore');
 
     const patterns = generateCtxignore(root);
@@ -147,6 +148,9 @@ program
       if (options.sync) {
         syncIgnoreFiles(root);
       }
+      if (options.claudesync) {
+        claudeSyncIgnoreFiles(root);
+      }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
       console.error(chalk.red(`✗ Could not write .ctxignore: ${msg}`));
@@ -156,6 +160,9 @@ program
     for (const p of patterns) console.log(chalk.gray(`  ${p}`));
     if (options.sync) {
       console.log(chalk.green(`✓ Synced rules to .cursorignore and .aiderignore`));
+    }
+    if (options.claudesync) {
+      console.log(chalk.green(`✓ Synced rules to .gitignore (for Claude Code)`));
     }
     console.log();
     console.log(chalk.gray('Run `fitcheck .` to see your new token count.'));

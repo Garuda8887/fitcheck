@@ -94,3 +94,25 @@ export function syncIgnoreFiles(root: string): void {
   fs.writeFileSync(path.join(root, '.cursorignore'), content, 'utf8');
   fs.writeFileSync(path.join(root, '.aiderignore'), content, 'utf8');
 }
+
+export function claudeSyncIgnoreFiles(root: string): void {
+  const ctxPath = path.join(root, '.ctxignore');
+  const gitPath = path.join(root, '.gitignore');
+  if (!fs.existsSync(ctxPath)) return;
+  const ctxContent = fs.readFileSync(ctxPath, 'utf8');
+  
+  const appendContent = [
+    '',
+    '# Added by fitcheck --claudesync',
+    ctxContent
+  ].join('\n');
+
+  if (fs.existsSync(gitPath)) {
+    const gitContent = fs.readFileSync(gitPath, 'utf8');
+    if (!gitContent.includes('# Added by fitcheck --claudesync')) {
+      fs.appendFileSync(gitPath, appendContent, 'utf8');
+    }
+  } else {
+    fs.writeFileSync(gitPath, appendContent.trimStart(), 'utf8');
+  }
+}

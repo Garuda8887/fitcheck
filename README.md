@@ -32,6 +32,7 @@ npm install -g fitcheck
 | `fitcheck diff` | Show the token cost of your current uncommitted git changes |
 | `fitcheck init` | Generate `.ctxignore` with smart bloat-detection defaults |
 | `fitcheck init --sync` | Generate and automatically sync to `.cursorignore` and `.aiderignore` |
+| `fitcheck init --claudesync` | Append `.ctxignore` rules directly to `.gitignore` (for Claude Code) |
 | `fitcheck . --json` | Output machine-readable JSON for CI/CD pipelines |
 
 ## The `.ctxignore` Standard
@@ -51,7 +52,7 @@ coverage/
 
 > **💡 IDE Integration:** 
 > - **Cursor & Aider:** Run `fitcheck init --sync` to automatically copy these rules into `.cursorignore` and `.aiderignore`.
-> - **Claude Code:** Anthropic's CLI relies entirely on `.gitignore`. To hide bloat from Claude Code, simply copy your `.ctxignore` rules into your `.gitignore` file.
+> - **Claude Code:** Anthropic's CLI relies entirely on `.gitignore`. Run `fitcheck init --claudesync` to automatically append these rules to your `.gitignore` file.
 
 ## Supported Models
 
