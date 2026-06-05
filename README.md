@@ -36,6 +36,14 @@ npm install -g fitcheck
 | `fitcheck init --claudesync` | Append `.ctxignore` rules directly to `.gitignore` (for Claude Code) |
 | `fitcheck . --json` | Output machine-readable JSON for CI/CD pipelines |
 
+## 💀 Skeletonization (The 80% Context Hack)
+
+Running `fitcheck pack` parses the AST of your entire TypeScript/JavaScript codebase and safely strips out all logic bodies and comments, leaving only the bare architectural signatures.
+
+![fitcheck pack 88% reduction](./pack.png)
+
+Drag the generated `.fitcheck-skeleton.md` file into ChatGPT or Claude to give them full architectural context of your project for pennies!
+
 ## The `.ctxignore` Standard
 
 Like `.gitignore`, but specifically for AI context windows. Run `fitcheck init` to generate one automatically, or create it manually using standard gitignore syntax.
