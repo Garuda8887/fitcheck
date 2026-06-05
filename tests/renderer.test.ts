@@ -57,3 +57,39 @@ describe('renderModelFits', () => {
     expect(out).toContain('SmallModel');
   });
 });
+
+describe('renderBreakdown', () => {
+  it('renders directory names and percentages', () => {
+    const analysis: Analysis = {
+      totalTokens: 200,
+      byDirectory: [
+        { name: 'src', tokens: 150, percentage: 75 },
+        { name: '.', tokens: 50, percentage: 25 },
+      ],
+      topFiles: [],
+      fileCount: 3,
+    };
+    const out = renderBreakdown(analysis);
+    expect(out).toContain('src');
+    expect(out).toContain('75%');
+    expect(out).toContain('.');
+  });
+});
+
+describe('renderBloat', () => {
+  it('returns empty string when no bloat', () => {
+    const advice: Advice = { bloat: [], totalSavings: 0, tokensAfterFix: 1000 };
+    expect(renderBloat(advice, 1000)).toBe('');
+  });
+
+  it('renders bloat patterns with savings', () => {
+    const advice: Advice = {
+      bloat: [{ pattern: 'dist/', tokens: 9000, percentage: 90 }],
+      totalSavings: 9000,
+      tokensAfterFix: 1000,
+    };
+    const out = renderBloat(advice, 10000);
+    expect(out).toContain('dist/');
+    expect(out).toContain('1.0k');
+  });
+});

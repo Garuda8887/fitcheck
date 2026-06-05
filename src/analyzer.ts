@@ -41,7 +41,7 @@ export function analyze(files: ScannedFile[], tokenCounts: Map<string, number>):
     }))
     .sort((a, b) => b.tokens - a.tokens);
 
-  const topFiles = fileTokens
+  const topFiles = [...fileTokens]
     .sort((a, b) => b.tokens - a.tokens)
     .slice(0, 10);
 
