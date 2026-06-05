@@ -49,6 +49,10 @@ coverage/
 
 `fitcheck` natively respects both `.gitignore` and `.ctxignore` when scanning your project.
 
+> **💡 IDE Integration:** 
+> - **Cursor & Aider:** Run `fitcheck init --sync` to automatically copy these rules into `.cursorignore` and `.aiderignore`.
+> - **Claude Code:** Anthropic's CLI relies entirely on `.gitignore`. To hide bloat from Claude Code, simply copy your `.ctxignore` rules into your `.gitignore` file.
+
 ## Supported Models
 
 All major LLM context windows are checked automatically. The model list lives in [`models.json`](models.json).
