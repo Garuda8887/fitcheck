@@ -36,6 +36,14 @@ npm install -g fitcheck
 | `fitcheck init --claudesync` | Append `.ctxignore` rules directly to `.gitignore` (for Claude Code) |
 | `fitcheck . --json` | Output machine-readable JSON for CI/CD pipelines |
 
+## 🤝 The Perfect Companion to Graphify, Cursor, & Aider
+
+Fitcheck is designed to be the "Context Optimizer" that sits perfectly on top of "Context Builders" like Graphify, Cursor, or Aider. 
+
+While tools like Graphify are incredible at building dependency graphs and bundling all related files together to give an AI the complete picture, this often results in a massive wall of text that completely blows past the LLM's token limit. 
+
+**The Solution:** Use your favorite context builder to map out the dependency graph, then run `fitcheck pack` to instantly skeletonize it. You get 100% of the architectural relationships at **20% of the token cost**, preventing your LLM from hallucinating or hitting hard limits!
+
 ## 💀 Skeletonization (The 80% Context Hack)
 
 Running `fitcheck pack` parses the AST of your entire TypeScript/JavaScript codebase and safely strips out all logic bodies and comments, leaving only the bare architectural signatures.
