@@ -12,3 +12,5 @@ docs/superpowers/
 fixtures/
 tests/
 demo.tape
+scratch/
+.fitcheck-skeleton.md
